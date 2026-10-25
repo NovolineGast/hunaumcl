@@ -49,6 +49,9 @@ jobs:
       - name: Build Windows portable app
         run: npm run package:portable
 
+      - name: Build single-file portable exe
+        run: npm run package:single
+
       - name: Package release assets
         shell: pwsh
         run: |
@@ -62,11 +65,20 @@ jobs:
           if (-not (Test-Path "$folder/HUNAUMCL.exe")) {
             throw "Portable build is missing $folder/HUNAUMCL.exe"
           }
+          $exe = "release/single/HUNAUMCL-$version-portable-x64.exe"
+          if (-not (Test-Path $exe)) {
+            throw "Single-file build is missing $exe"
+          }
           $zip = "release/HUNAUMCL-$version-win32-x64.zip"
           Compress-Archive -Path $folder -DestinationPath $zip -CompressionLevel Optimal -Force
-          $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
-          "$hash  HUNAUMCL-$version-win32-x64.zip" | Out-File -Encoding ascii "release/SHA256SUMS.txt"
-          "RELEASE_SHA256=$hash" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          $zipHash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          $exeHash = (Get-FileHash $exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          @(
+            "$zipHash  HUNAUMCL-$version-win32-x64.zip"
+            "$exeHash  HUNAUMCL-$version-portable-x64.exe"
+          ) | Out-File -Encoding ascii "release/SHA256SUMS.txt"
+          "RELEASE_SHA256=$zipHash" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "RELEASE_SHA256_EXE=$exeHash" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Generate release notes
         run: node scripts/release-notes.mjs
@@ -84,6 +96,7 @@ jobs:
           $tag = $env:GITHUB_REF_NAME
           $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
           $zip = "release/HUNAUMCL-$version-win32-x64.zip"
+          $exe = "release/single/HUNAUMCL-$version-portable-x64.exe"
           $sums = "release/SHA256SUMS.txt"
           $notes = "release/RELEASE_NOTES.md"
           $title = "HUNAUMCL $tag"
@@ -91,9 +104,9 @@ jobs:
           if ($LASTEXITCODE -eq 0) {
             gh release edit $tag --title $title --notes-file $notes
             if ($LASTEXITCODE -ne 0) { throw "gh release edit failed" }
-            gh release upload $tag $zip $sums --clobber
+            gh release upload $tag $zip $exe $sums --clobber
             if ($LASTEXITCODE -ne 0) { throw "gh release upload failed" }
           } else {
-            gh release create $tag $zip $sums --verify-tag --title $title --notes-file $notes
+            gh release create $tag $zip $exe $sums --verify-tag --title $title --notes-file $notes
             if ($LASTEXITCODE -ne 0) { throw "gh release create failed" }
           }

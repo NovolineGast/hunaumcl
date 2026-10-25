@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
+  "appId": "org.hunaumcl.desktop",
+  "productName": "HUNAUMCL",
+  "electronVersion": "44.9.3",
+  "directories": {
+    "output": "release/single"
+  },
+  "files": ["out/**/*", "package.json", "node_modules/zod/**/*", "!**/*.map", "!**/*.d.ts"],
+  "win": {
+    "target": [
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      }
+    ]
+  },
+  "portable": {
+    "artifactName": "HUNAUMCL-${version}-portable-${arch}.${ext}"
+  }
+}

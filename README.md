@@ -19,16 +19,17 @@ npm run dev
 npm run check          # 严格类型检查、协议/持久化测试、生产构建
 npm run start          # 运行生产构建，需先 build 或 check
 npm run test:desktop   # 构建并运行真实 Electron 窗口测试
-npm run package:portable  # Windows 便携版，输出到 release/
+npm run package:portable  # 文件夹版，输出到 release/
+npm run package:single    # 单文件便携 exe，输出到 release/single/
 ```
 
-Windows 便携版运行 `release/HUNAUMCL-<版本>-win32-x64/HUNAUMCL.exe`。它未签名，首次运行可能触发 SmartScreen 提示；游戏数据默认仍保存在用户数据目录，可用 `HUNAUMCL_DATA_DIR` 指定到便携目录。
+Windows 便携版有两种：`package:portable` 生成解压即用的文件夹，`package:single` 生成 electron-builder portable 单文件 `release/single/HUNAUMCL-<版本>-portable-x64.exe`。两者都未签名，首次运行可能触发 SmartScreen 提示。单文件版把 Electron 的 userData 重定向到 exe 同级的 `profile/`（游戏数据在 `profile/data/`）；文件夹版默认仍使用用户数据目录，可用 `HUNAUMCL_DATA_DIR` 指定。
 
 桌面测试使用独立临时数据目录及注入的确定性 Mojang 传输数据，验证 IPC、窗口隔离、实例创建、账号增删改与切换、实例设置保存及重载、预检、下载中的字节/速度更新、取消与重试、安装状态、弹窗过渡及减少动画、搜索与运行环境页面，截图输出到 `test-results/`。它与下面的真实游戏验证是两类测试。
 
 ## 发布
 
-推送 `v*` 标签会触发 [Release 工作流](.github/workflows/release.yml)：运行测试、构建 Windows 便携版、生成 SHA256 与发布说明，并自动创建 GitHub Release。
+推送 `v*` 标签会触发 [Release 工作流](.github/workflows/release.yml)：运行测试、构建文件夹版与单文件便携 exe、生成 SHA256 与发布说明，并自动创建 GitHub Release。
 
 ```sh
 git tag v0.1.0
@@ -98,7 +99,7 @@ tests/            协议、事务、取消、进程、日志及数据损坏测�
 
 ## 数据与行为
 
-默认保存在 Electron 用户数据目录下的 `data/`。开发或测试可在启动进程中设置 `HUNAUMCL_DATA_DIR`；这是本地进程配置，不是 UI 输入。
+默认保存在 Electron 用户数据目录下的 `data/`。单文件便携版会把 userData 重定向到 exe 同级的 `profile/`，因此数据在 `profile/data/`；开发或测试可在启动进程中设置 `HUNAUMCL_DATA_DIR`，这是本地进程配置，不是 UI 输入。
 
 ```text
 data/

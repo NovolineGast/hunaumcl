@@ -37,6 +37,10 @@ import {
 } from '@hunaumcl/runtime-node';
 
 let window: BrowserWindow | undefined;
+// electron-builder's portable target extracts the app to a temporary folder and exposes the
+// directory that contains the single executable; keep all profile data next to that executable.
+const portableDirectory = process.env.PORTABLE_EXECUTABLE_DIR;
+if (portableDirectory) app.setPath('userData', join(portableDirectory, 'profile'));
 const locked = app.requestSingleInstanceLock();
 if (!locked) app.quit();
 else {
