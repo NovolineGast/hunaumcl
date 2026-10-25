@@ -22,6 +22,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:desktop": "npm run build && node scripts/smoke-desktop.mjs",
+    "package:portable": "npm run build && node scripts/package-portable.mjs",
     "check": "npm run typecheck && npm test && electron-vite build",
     "format": "prettier --write apps packages tests scripts electron.vite.config.ts vitest.config.ts package.json tsconfig.json"
   },

@@ -19,7 +19,10 @@ npm run dev
 npm run check          # 严格类型检查、协议/持久化测试、生产构建
 npm run start          # 运行生产构建，需先 build 或 check
 npm run test:desktop   # 构建并运行真实 Electron 窗口测试
+npm run package:portable  # Windows 便携版，输出到 release/
 ```
+
+Windows 便携版运行 `release/HUNAUMCL-<版本>-win32-x64/HUNAUMCL.exe`。它未签名，首次运行可能触发 SmartScreen 提示；游戏数据默认仍保存在用户数据目录，可用 `HUNAUMCL_DATA_DIR` 指定到便携目录。
 
 桌面测试使用独立临时数据目录及注入的确定性 Mojang 传输数据，验证 IPC、窗口隔离、实例创建、账号增删改与切换、实例设置保存及重载、预检、下载中的字节/速度更新、取消与重试、安装状态、弹窗过渡及减少动画、搜索与运行环境页面，截图输出到 `test-results/`。它与下面的真实游戏验证是两类测试。
 
