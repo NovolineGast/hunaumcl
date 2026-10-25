@@ -1,0 +1,86 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows-x64:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build Windows portable app
+        run: npm run package:portable
+
+      - name: Package release assets
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $tag = $env:GITHUB_REF_NAME
+          if ("v$version" -ne $tag) {
+            throw "Tag $tag does not match package.json version v$version"
+          }
+          $folder = "release/HUNAUMCL-$version-win32-x64"
+          if (-not (Test-Path "$folder/HUNAUMCL.exe")) {
+            throw "Portable build is missing $folder/HUNAUMCL.exe"
+          }
+          $zip = "release/HUNAUMCL-$version-win32-x64.zip"
+          Compress-Archive -Path $folder -DestinationPath $zip -CompressionLevel Optimal -Force
+          $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  HUNAUMCL-$version-win32-x64.zip" | Out-File -Encoding ascii "release/SHA256SUMS.txt"
+          "RELEASE_SHA256=$hash" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Generate release notes
+        run: node scripts/release-notes.mjs
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = $env:GITHUB_REF_NAME
+          $version = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          $zip = "release/HUNAUMCL-$version-win32-x64.zip"
+          $sums = "release/SHA256SUMS.txt"
+          $notes = "release/RELEASE_NOTES.md"
+          $title = "HUNAUMCL $tag"
+          gh release view $tag --json tagName 2>$null | Out-Null
+          if ($LASTEXITCODE -eq 0) {
+            gh release edit $tag --title $title --notes-file $notes
+            if ($LASTEXITCODE -ne 0) { throw "gh release edit failed" }
+            gh release upload $tag $zip $sums --clobber
+            if ($LASTEXITCODE -ne 0) { throw "gh release upload failed" }
+          } else {
+            gh release create $tag $zip $sums --verify-tag --title $title --notes-file $notes
+            if ($LASTEXITCODE -ne 0) { throw "gh release create failed" }
+          }

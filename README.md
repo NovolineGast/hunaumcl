@@ -26,6 +26,17 @@ Windows 便携版运行 `release/HUNAUMCL-<版本>-win32-x64/HUNAUMCL.exe`。它
 
 桌面测试使用独立临时数据目录及注入的确定性 Mojang 传输数据，验证 IPC、窗口隔离、实例创建、账号增删改与切换、实例设置保存及重载、预检、下载中的字节/速度更新、取消与重试、安装状态、弹窗过渡及减少动画、搜索与运行环境页面，截图输出到 `test-results/`。它与下面的真实游戏验证是两类测试。
 
+## 发布
+
+推送 `v*` 标签会触发 [Release 工作流](.github/workflows/release.yml)：运行测试、构建 Windows 便携版、生成 SHA256 与发布说明，并自动创建 GitHub Release。
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+标签必须与 `package.json` 的 `version` 一致（例如 `v0.1.0`）。Release 说明由 [release-notes.mjs](scripts/release-notes.mjs) 根据版本、提交记录和构建哈希自动填充。
+
 ## 安装与运行游戏
 
 1. 顶部点击「下载」，选择 Minecraft 版本与实例名称。1.12.2 使用 Java 8，1.20.1 使用 Java 17，1.21.1 使用 Java 21。
@@ -130,7 +141,7 @@ Java 扫描覆盖 PATH、JAVA_HOME 及常用安装目录，macOS 额外调用 `j
 - 加载器实现后的自动测试共 64 项，另有桌面测试验证组件互斥、Forge/OptiFine 组合选择和隔离选项保存。Windows x64 的 Fabric+API、OptiFine 单装、Forge+OptiFine、NeoForge、Fabric+OptiFine+OptiFabric 五种真实运行记录，不以“安装完”代替游戏初始化证据。
 - 已在 Windows x64 分别完成 1.12.2 + OptiFine HD_U_G5、HD_U_C5 的真实下载、安装与 Java 8 离线启动，确认 OptiFine 版本、声音和纹理图集初始化后持续运行至少 15 秒；C5 实际触发了镜像超时后的官网回退及标准 LaunchWrapper 补全。记录为 `test-results/legacy-optifine-HD_U_G5.json` 和 `test-results/legacy-optifine-HD_U_C5.json`。可在已构建后运行 `node scripts/validate-legacy-optifine.mjs` 复现，需要联网及本地 Java 8，数据隔离在 `.research/legacy-optifine-validation/`。当前自动测试共 73 项。
 - 真实游戏验证没有操作存档或加入服务器，未将进程启动等同于全部游戏功能验收。记录与截图位于本机 `test-results/`；测试数据隔离在 `.research/game-validation/`，不影响默认用户目录。
-- 尚未在 macOS/Linux 真机验证，也尚未生成安装包或接入自动更新。三系统平台适配仍需实际游戏验证。
+- 尚未在 macOS/Linux 真机验证，也尚未生成签名安装包或接入自动更新；Windows 便携版由 CI 构建并发布。三系统平台适配仍需实际游戏验证。
 - 微软登录加入后自动测试共 89 项，Electron 桌面测试覆盖 Client ID 保存、设备码、取消与重载、系统加密及账号切换。微软/Xbox/Minecraft 服务响应使用受控测试数据，真实账号授权需自己的 Client ID 与 Minecraft API 准入后再验收。截图见 `test-results/microsoft-settings.png`、`microsoft-device-code.png`、`accounts-microsoft.png`。
 
 ## 后续开发顺序
