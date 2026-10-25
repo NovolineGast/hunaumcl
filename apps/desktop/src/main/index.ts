@@ -177,6 +177,21 @@ else {
       handle(channels.activity, emptyRequestSchema, () => service.activity());
       handle(channels.cancelTask, instanceIdSchema, (id) => service.cancelTask(id));
       handle(channels.stopSession, instanceIdSchema, (id) => service.stopSession(id));
+      handle(channels.windowState, emptyRequestSchema, async () => ({
+        maximized: window?.isMaximized() ?? false,
+      }));
+      handle(channels.windowMinimize, emptyRequestSchema, async () => {
+        window?.minimize();
+      });
+      handle(channels.windowToggleMaximize, emptyRequestSchema, async () => {
+        const maximized = window?.isMaximized() ?? false;
+        if (maximized) window?.unmaximize();
+        else window?.maximize();
+        return { maximized: !maximized };
+      });
+      handle(channels.windowClose, emptyRequestSchema, async () => {
+        window?.close();
+      });
       let closing = false;
       app.on('before-quit', (event) => {
         if (closing) return;
@@ -197,6 +212,7 @@ else {
           minHeight: 680,
           show: false,
           title: 'HUNAUMCL',
+          frame: false,
           backgroundColor: '#f3f6fa',
           autoHideMenuBar: true,
           webPreferences: {
@@ -212,6 +228,12 @@ else {
           if (url !== expectedURL) event.preventDefault();
         });
         window.webContents.on('will-attach-webview', (event) => event.preventDefault());
+        const publishWindowState = () => {
+          if (!window || window.isDestroyed()) return;
+          window.webContents.send(channels.windowStateChanged, { maximized: window.isMaximized() });
+        };
+        window.on('maximize', publishWindowState);
+        window.on('unmaximize', publishWindowState);
         window.once('ready-to-show', () => window?.show());
         window.on('closed', () => {
           window = undefined;

@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
+import type { IpcRendererEvent } from 'electron';
 import { channels } from '@hunaumcl/contracts/channels';
-import type { LauncherAPI } from '@hunaumcl/contracts';
+import type { LauncherAPI, WindowState } from '@hunaumcl/contracts';
 
 const api: LauncherAPI = Object.freeze<LauncherAPI>({
   microsoftConfiguration: () => ipcRenderer.invoke(channels.microsoftConfiguration),
@@ -31,5 +32,14 @@ const api: LauncherAPI = Object.freeze<LauncherAPI>({
   activity: () => ipcRenderer.invoke(channels.activity),
   cancelTask: (taskId) => ipcRenderer.invoke(channels.cancelTask, taskId),
   stopSession: (sessionId) => ipcRenderer.invoke(channels.stopSession, sessionId),
+  windowMinimize: () => ipcRenderer.invoke(channels.windowMinimize),
+  windowToggleMaximize: () => ipcRenderer.invoke(channels.windowToggleMaximize),
+  windowClose: () => ipcRenderer.invoke(channels.windowClose),
+  windowState: () => ipcRenderer.invoke(channels.windowState),
+  onWindowStateChange: (listener) => {
+    const handler = (_event: IpcRendererEvent, state: WindowState) => listener(state);
+    ipcRenderer.on(channels.windowStateChanged, handler);
+    return () => ipcRenderer.removeListener(channels.windowStateChanged, handler);
+  },
 });
 contextBridge.exposeInMainWorld('launcher', api);

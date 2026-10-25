@@ -220,6 +220,10 @@ export interface LaunchCheck {
 
 export type Result<T> = { ok: true; value: T } | { ok: false; error: { code: string; message: string } };
 
+export interface WindowState {
+  maximized: boolean;
+}
+
 export { channels } from './channels';
 
 export interface LauncherAPI {
@@ -254,6 +258,11 @@ export interface LauncherAPI {
   activity(): Promise<Result<ActivitySnapshot>>;
   cancelTask(taskId: string): Promise<Result<void>>;
   stopSession(sessionId: string): Promise<Result<void>>;
+  windowMinimize(): Promise<Result<void>>;
+  windowToggleMaximize(): Promise<Result<WindowState>>;
+  windowClose(): Promise<Result<void>>;
+  windowState(): Promise<Result<WindowState>>;
+  onWindowStateChange(listener: (state: WindowState) => void): () => void;
 }
 export interface ComponentVersion {
   id: string;

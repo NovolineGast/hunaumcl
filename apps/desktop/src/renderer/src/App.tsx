@@ -42,6 +42,7 @@ import { InstanceSettingsPage } from './InstanceSettingsPage';
 import { Modal } from './Modal';
 import { DownloadDock } from './DownloadDock';
 import { LaunchPanel, LauncherHome, VersionLibrary } from './LauncherViews';
+import { WindowControls } from './WindowControls';
 
 function unwrap<T>(result: Result<T>): T {
   if (!result.ok) throw new Error(result.error.message);
@@ -424,7 +425,13 @@ export function App() {
 
   return (
     <div className="app-shell">
-      <header className="launcher-header">
+      <header
+        className="launcher-header"
+        onDoubleClick={(event) => {
+          if ((event.target as HTMLElement).closest('button, a, input, select, textarea')) return;
+          void window.launcher.windowToggleMaximize();
+        }}
+      >
         <button className="launcher-brand" onClick={() => navigate('home')} aria-label="HUNAUMCL 首页">
           <Box size={24} strokeWidth={1.6} />
           <strong>HUNAUMCL</strong>
@@ -449,11 +456,14 @@ export function App() {
             设置
           </button>
         </nav>
-        <button className="header-tasks" onClick={() => navigate('tasks')} aria-label="查看任务与日志">
-          <Activity size={17} />
-          <span>{busy ? '有任务进行中' : '任务'}</span>
-          {busy && <i className="status-dot" />}
-        </button>
+        <div className="header-actions">
+          <button className="header-tasks" onClick={() => navigate('tasks')} aria-label="查看任务与日志">
+            <Activity size={17} />
+            <span>{busy ? '有任务进行中' : '任务'}</span>
+            {busy && <i className="status-dot" />}
+          </button>
+          <WindowControls />
+        </div>
       </header>
       <aside className="context-sidebar" aria-label={section === 'launch' ? '启动操作' : '功能导航'}>
         {section === 'launch' ? (

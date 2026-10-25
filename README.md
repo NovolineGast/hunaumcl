@@ -2,7 +2,7 @@
 
 基于 Electron + TypeScript 的 Minecraft Java 版桌面启动器，面向 Windows、macOS 和 Linux。
 
-当前已支持原版、Fabric、Forge、NeoForge 组件选择与事务安装，以及 OptiFine、Fabric API、OptiFabric 组合管理；包含字节级下载进度、Microsoft / 离线账号管理、实例独立设置、三种版本隔离策略、实时日志和结束游戏。页面与弹窗有过渡动画，并遵循系统减少动画偏好。Microsoft 登录需要配置自己的 Client ID 和 Minecraft API 资格；实际验证范围见下文。
+当前已支持原版、Fabric、Forge、NeoForge 组件选择与事务安装，以及 OptiFine、Fabric API、OptiFabric 组合管理；包含字节级下载进度、Microsoft / 离线账号管理、实例独立设置、三种版本隔离策略、实时日志和结束游戏。窗口使用无边框标题栏，最小化、最大化/还原和关闭按钮集成在顶部导航中；页面与弹窗有过渡动画，并遵循系统减少动画偏好。Microsoft 登录需要配置自己的 Client ID 和 Minecraft API 资格；实际验证范围见下文。
 
 ## 开发
 

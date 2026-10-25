@@ -214,6 +214,19 @@ try {
   await expect(
     page.getByRole('navigation', { name: '主导航' }).getByRole('button', { name: '启动', exact: true }),
   ).toHaveAttribute('aria-current', 'page');
+  await expect(page.getByRole('button', { name: '最小化', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '最大化', exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: '关闭', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '最大化', exact: true }).click();
+  await expect
+    .poll(() => page.evaluate(async () => (await window.launcher.windowState()).value.maximized))
+    .toBe(true);
+  await expect(page.getByRole('button', { name: '还原', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: '还原', exact: true }).click();
+  await expect
+    .poll(() => page.evaluate(async () => (await window.launcher.windowState()).value.maximized))
+    .toBe(false);
+  await expect(page.getByRole('button', { name: '最大化', exact: true })).toBeVisible();
   await capture({ path: join(artifacts, 'home-empty.png') });
   await page.getByRole('button', { name: '版本选择', exact: true }).click();
   await expect(page.getByRole('heading', { name: '版本选择', exact: true })).toBeVisible();
@@ -255,6 +268,11 @@ try {
       'selectAccount',
       'updateAccount',
       'updateInstance',
+      'onWindowStateChange',
+      'windowClose',
+      'windowMinimize',
+      'windowState',
+      'windowToggleMaximize',
     ].sort(),
   );
   const invalid = await page.evaluate(() =>
@@ -567,6 +585,7 @@ try {
         checks: [
           'renderer isolation',
           'IPC validation',
+          'custom window controls and maximize state',
           'instance creation',
           'metadata preflight',
           'reload persistence',

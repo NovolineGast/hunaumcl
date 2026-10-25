@@ -28,4 +28,9 @@ export const channels = {
   activity: 'hunaumcl:activity:read',
   cancelTask: 'hunaumcl:task:cancel',
   stopSession: 'hunaumcl:session:stop',
+  windowMinimize: 'hunaumcl:window:minimize',
+  windowToggleMaximize: 'hunaumcl:window:toggle-maximize',
+  windowClose: 'hunaumcl:window:close',
+  windowState: 'hunaumcl:window:state',
+  windowStateChanged: 'hunaumcl:window:state-changed',
 } as const;

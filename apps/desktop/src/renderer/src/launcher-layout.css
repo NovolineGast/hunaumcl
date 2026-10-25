@@ -10,15 +10,18 @@
 .launcher-header {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr var(--sidebar-width);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   background: #246b92;
   color: white;
-  padding: 0 20px;
+  padding: 0;
   z-index: 5;
+  -webkit-app-region: drag;
+  user-select: none;
 }
 .launcher-brand {
   justify-self: start;
+  margin-left: 20px;
   gap: 10px;
   padding: 0;
   border: 0;
@@ -62,8 +65,15 @@
   background: white;
   border-radius: 3px 3px 0 0;
 }
-.header-tasks {
+.header-actions {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+.header-tasks {
+  margin-right: 6px;
   padding: 8px 10px;
   border: 0;
   border-radius: 5px;
@@ -76,6 +86,43 @@
 }
 .header-tasks .status-dot {
   background: #c0ebdc;
+}
+.window-controls {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+.window-control {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #e3f0f8;
+  -webkit-app-region: no-drag;
+}
+.window-control svg {
+  pointer-events: none;
+}
+.window-control:hover {
+  background: #ffffff16;
+  color: white;
+}
+.window-control:active {
+  background: #ffffff22;
+}
+.window-close:hover {
+  background: #c42b1c;
+  color: white;
+}
+.window-close:active {
+  background: #b02a1c;
+}
+.launcher-header button {
+  -webkit-app-region: no-drag;
 }
 .launcher-header button:focus-visible {
   outline-color: white;
@@ -800,8 +847,10 @@
     --sidebar-width: 245px;
   }
   .launcher-header {
-    grid-template-columns: var(--sidebar-width) 1fr 150px;
-    padding: 0 18px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+  .launcher-brand {
+    margin-left: 18px;
   }
   .content {
     padding: 22px;
