@@ -1,0 +1,294 @@
+.microsoft-mark {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.microsoft-mark i:nth-child(1) {
+  background: #f25022;
+}
+.microsoft-mark i:nth-child(2) {
+  background: #7fba00;
+}
+.microsoft-mark i:nth-child(3) {
+  background: #00a4ef;
+}
+.microsoft-mark i:nth-child(4) {
+  background: #ffb900;
+}
+.identity-avatar > .microsoft-mark {
+  width: 33px;
+  height: 33px;
+  gap: 3px;
+}
+.signin-panel {
+  margin-bottom: 24px;
+  background: #fff;
+  border: 1px solid #dce8ef;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.signin-methods {
+  display: flex;
+  gap: 30px;
+  padding: 0 25px;
+  border-bottom: 1px solid #e4edf3;
+}
+.signin-methods button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 18px 0 15px;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  color: #718697;
+  font-size: 13px;
+  cursor: pointer;
+}
+.signin-methods button[aria-selected='true'] {
+  border-bottom-color: #246b92;
+  color: #246b92;
+}
+.signin-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px;
+  min-height: 160px;
+}
+.signin-copy h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #344e62;
+  margin: 0 0 9px;
+}
+.signin-copy p {
+  font-size: 12px;
+  color: #668094;
+  line-height: 1.8;
+  max-width: 48ch;
+}
+.signin-copy small {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-top: 14px;
+  color: #738a99;
+  font-size: 11px;
+}
+.signin-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+  flex-shrink: 0;
+}
+.signin-actions .text-button {
+  font-size: 11px;
+}
+.microsoft-account-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  margin-right: 7px;
+  color: #246b92;
+  background: #edf5fa;
+  border-radius: 3px;
+  font-size: 10px;
+}
+.ms-config-intro {
+  font-size: 13px;
+  color: #668094;
+  margin: 15px 0 20px;
+}
+.ms-setup-details {
+  margin: 2px 0 18px;
+  padding: 12px 14px;
+  border: 1px solid #e4edf3;
+  border-radius: 6px;
+  background: #f8fbfd;
+}
+.ms-setup-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: #4d7891;
+}
+.ms-setup-details[open] summary {
+  margin-bottom: 4px;
+}
+.ms-setup-details .ms-setup-steps {
+  margin: 12px 0 10px;
+  padding-left: 18px;
+}
+.ms-setup-details .ms-config-links {
+  margin-bottom: 0;
+}
+.ms-setup-note {
+  margin: 0 0 4px;
+  font-size: 11px;
+  line-height: 1.7;
+  color: #8a9baa;
+}
+.ms-setup-steps {
+  margin: 16px 0;
+  padding-left: 20px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #58758a;
+}
+.ms-setup-steps li + li {
+  margin-top: 7px;
+}
+.ms-config-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.ms-config-links .text-button {
+  font-size: 12px;
+}
+.ms-login-heading {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding: 12px 0 18px;
+}
+.ms-login-emblem {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  background: #f2f6f9;
+  border-radius: 7px;
+}
+.ms-login-emblem .microsoft-mark {
+  width: 27px;
+  height: 27px;
+  gap: 3px;
+}
+.ms-login-heading strong {
+  color: #344e62;
+  font-size: 15px;
+}
+.ms-login-heading p {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #718697;
+}
+.device-authorization {
+  padding: 22px 12px;
+  text-align: center;
+  background: #f1f7fb;
+  border: 1px solid #dce8ef;
+  border-radius: 7px;
+}
+.device-authorization > span {
+  display: block;
+  color: #58758a;
+  font-size: 12px;
+}
+.device-code {
+  display: block;
+  margin: 13px 0;
+  font:
+    600 31px 'Cascadia Mono',
+    Consolas,
+    monospace;
+  letter-spacing: 4px;
+  color: #246b92;
+  user-select: all;
+}
+.device-authorization small {
+  display: block;
+  line-height: 1.8;
+  color: #718697;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.device-authorization > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.ms-login-steps {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 13px 15px;
+  margin: 23px 0;
+  padding: 0;
+}
+.ms-login-steps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8495a2;
+  font-size: 11px;
+}
+.ms-login-steps li > span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #dce8ef;
+  border-radius: 50%;
+  color: #8495a2;
+}
+.ms-login-steps li[data-active='true'] {
+  color: #246b92;
+}
+.ms-login-steps li[data-active='true'] > span {
+  border-color: #246b92;
+  color: #246b92;
+}
+.ms-login-steps li[data-done='true'] {
+  color: #238769;
+}
+.ms-login-steps li[data-done='true'] > span {
+  border-color: #c4e2d7;
+  background: #ebf6f0;
+  color: #238769;
+}
+.ms-login-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 13px 14px;
+  margin-bottom: 19px;
+  background: #f5f8fa;
+  border-radius: 5px;
+  color: #58758a;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.ms-login-status svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.ms-login-success {
+  color: #238769;
+  background: #edf7f1;
+}
+.dialog:has(.ms-login-heading),
+.dialog:has(.ms-setup-steps) {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+@media (max-width: 1050px) {
+  .signin-content {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .signin-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

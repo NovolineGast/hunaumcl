@@ -1,0 +1,51 @@
+{
+  "name": "hunaumcl",
+  "version": "0.1.0",
+  "private": true,
+  "description": "HUNAUMCL cross-platform Minecraft launcher",
+  "type": "module",
+  "main": "./out/main/index.cjs",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "overrides": {
+    "@xmcl/unzip": "2.1.2"
+  },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "start": "electron-vite preview",
+    "build": "npm run typecheck && electron-vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:desktop": "npm run build && node scripts/smoke-desktop.mjs",
+    "check": "npm run typecheck && npm test && electron-vite build",
+    "format": "prettier --write apps packages tests scripts electron.vite.config.ts vitest.config.ts package.json tsconfig.json"
+  },
+  "dependencies": {
+    "@hunaumcl/application": "*",
+    "@hunaumcl/contracts": "*",
+    "@hunaumcl/domain": "*",
+    "@hunaumcl/runtime-node": "*",
+    "lucide-react": "1.60.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "electron": "44.9.3",
+    "electron-vite": "6.0.0",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "vite": "8.3.4",
+    "vitest": "5.0.5"
+  }
+}

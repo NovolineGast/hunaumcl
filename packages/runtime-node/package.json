@@ -1,0 +1,19 @@
+{
+  "name": "@hunaumcl/runtime-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@hunaumcl/application": "*",
+    "@hunaumcl/contracts": "*",
+    "@hunaumcl/domain": "*",
+    "@xmcl/asm": "1.0.1",
+    "@xmcl/core": "2.16.2",
+    "@xmcl/installer": "6.3.6",
+    "@xmcl/semver": "0.1.1",
+    "@xmcl/unzip": "2.1.2",
+    "undici": "7.30.1",
+    "zod": "4.6.7"
+  }
+}

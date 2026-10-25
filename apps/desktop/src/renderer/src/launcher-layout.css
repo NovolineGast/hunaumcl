@@ -1,0 +1,907 @@
+/* Launcher hierarchy: primary tabs, contextual controls, scrollable workspace. */
+.app-shell {
+  --sidebar-width: 280px;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  grid-template-rows: 64px minmax(0, 1fr);
+  overflow: hidden;
+}
+.launcher-header {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr var(--sidebar-width);
+  align-items: center;
+  background: #246b92;
+  color: white;
+  padding: 0 20px;
+  z-index: 5;
+}
+.launcher-brand {
+  justify-self: start;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: white;
+}
+.launcher-brand strong {
+  font-family: Bahnschrift, 'Segoe UI', sans-serif;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.primary-nav {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  height: 100%;
+}
+.primary-nav button {
+  position: relative;
+  border: 0;
+  background: none;
+  color: #e2f1fa;
+  padding: 0 22px;
+  font-size: 15px;
+}
+.primary-nav button:hover {
+  background: #ffffff12;
+}
+.primary-nav button[aria-current='page'] {
+  color: white;
+  background: #ffffff16;
+}
+.primary-nav button[aria-current='page']::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  height: 3px;
+  left: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 3px 3px 0 0;
+}
+.header-tasks {
+  justify-self: end;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  color: #e3f0f8;
+  font-size: 12px;
+}
+.header-tasks:hover {
+  background: #ffffff16;
+}
+.header-tasks .status-dot {
+  background: #c0ebdc;
+}
+.launcher-header button:focus-visible {
+  outline-color: white;
+}
+.context-sidebar {
+  grid-row: 2;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-right: 1px solid #dce6ed;
+  overflow: auto;
+}
+.status-dot {
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #347b65;
+}
+.workspace {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.content {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 25px 26px 28px;
+}
+.launch-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 23px 21px 0;
+  min-height: 540px;
+}
+.launch-panel-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #6f8797;
+  font-size: 11px;
+}
+.launch-identity {
+  flex: 1;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 22px 0;
+}
+.identity-avatar {
+  display: grid;
+  place-items: center;
+  color: #3d7894;
+  width: 76px;
+  height: 76px;
+  border-radius: 9px;
+  background: #e6f0f5;
+  border: 5px solid #f4f8fa;
+  margin-bottom: 14px;
+}
+.launch-identity > strong {
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.launch-identity > span {
+  color: #6d8596;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.identity-select {
+  display: block;
+  width: 100%;
+  margin-top: 19px;
+}
+.identity-select select {
+  width: 100%;
+  height: 34px;
+  border: 1px solid #d9e5ed;
+  background: white;
+  border-radius: 5px;
+  padding: 0 9px;
+  color: #45667d;
+  font-size: 12px;
+}
+.launch-identity .text-button {
+  margin-top: 11px;
+}
+.bound-account {
+  font-size: 11px;
+  color: #637c8d;
+  margin-top: 9px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.text-button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #39769a;
+  font-size: 12px;
+  gap: 5px;
+}
+.text-button:hover {
+  color: #164e71;
+}
+.launch-controls {
+  padding-bottom: 15px;
+}
+.selected-version {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  border: 1px solid #e1eaf0;
+  background: #f7fafc;
+  border-radius: 6px;
+  padding: 12px;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.selected-version > svg {
+  color: #5b8ba5;
+}
+.selected-version > span {
+  flex: 1;
+  min-width: 0;
+}
+.selected-version small {
+  display: block;
+  color: #6e8697;
+  font-size: 10px;
+  margin-bottom: 3px;
+}
+.selected-version strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.selected-version em {
+  display: block;
+  font-size: 11px;
+  font-style: normal;
+  color: #678295;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.selected-version:hover {
+  border-color: #9ebfd1;
+}
+.launch-primary {
+  width: 100%;
+  border: 0;
+  color: white;
+  background: #246b92;
+  border-radius: 6px;
+  min-height: 69px;
+  gap: 14px;
+}
+.launch-primary:hover:enabled {
+  background: #195a80;
+}
+.launch-primary > span {
+  text-align: left;
+}
+.launch-primary strong {
+  display: block;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+.launch-primary small {
+  display: block;
+  font-size: 10px;
+  color: #e0eff7;
+  margin-top: 3px;
+}
+.launch-primary:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.launch-secondary {
+  display: flex;
+  gap: 9px;
+  margin-top: 10px;
+}
+.launch-secondary button {
+  flex: 1;
+  border: 1px solid #dce6ee;
+  background: white;
+  height: 35px;
+  border-radius: 5px;
+  color: #52748c;
+  font-size: 11px;
+  gap: 6px;
+}
+.launch-secondary button:hover:enabled {
+  background: #f0f6fa;
+}
+.launch-task-link {
+  display: flex;
+  margin: 13px auto 0;
+  border: 0;
+  background: none;
+  color: #6f8899;
+  font-size: 11px;
+}
+.context-heading {
+  padding: 27px 24px 24px;
+}
+.context-heading > span {
+  display: block;
+  font-size: 19px;
+  font-weight: 600;
+}
+.context-heading > small {
+  display: block;
+  font-size: 11px;
+  color: #6c8497;
+  margin-top: 6px;
+}
+.context-nav {
+  padding: 0 14px;
+}
+.context-nav button {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: #587389;
+  border-radius: 5px;
+  padding: 12px 14px;
+  gap: 13px;
+  margin-bottom: 5px;
+  position: relative;
+}
+.context-nav button > span {
+  margin-left: auto;
+  font-size: 11px;
+  background: #dbeaf3;
+  border-radius: 3px;
+  padding: 0 6px;
+}
+.context-nav button.selected {
+  background: #e9f2f8;
+  color: #246b92;
+}
+.context-nav button.selected::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  border-radius: 3px;
+  background: #246b92;
+}
+.context-nav button:hover:enabled {
+  background: #f0f6fa;
+}
+.context-nav button:disabled,
+.launch-secondary button:disabled {
+  cursor: default;
+}
+.context-current {
+  margin: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #e6edf2;
+}
+.context-current small {
+  display: block;
+  font-size: 10px;
+  color: #6d8496;
+}
+.context-current strong {
+  display: block;
+  font-size: 13px;
+  margin-top: 6px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.context-current > span {
+  display: block;
+  font-size: 11px;
+  color: #6b8496;
+  margin-top: 4px;
+}
+.context-current .text-button {
+  margin-top: 14px;
+}
+.context-back {
+  margin: auto 24px 20px;
+  background: none;
+  border: 0;
+  color: #587b92;
+  padding: 0;
+  justify-content: flex-start;
+  font-size: 12px;
+}
+.home-landscape {
+  position: relative;
+  overflow: hidden;
+  height: 205px;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  background: #dfedf4;
+}
+.home-landscape .landscape {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+.home-welcome {
+  position: relative;
+  padding: 28px 29px;
+}
+.home-welcome > span {
+  font-family: Bahnschrift, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #436f88;
+}
+.home-welcome h1 {
+  font-size: clamp(21px, 2vw, 27px);
+  font-weight: 500;
+  color: #254e67;
+  margin-top: 13px;
+}
+.home-welcome p {
+  font-size: 12px;
+  color: #4e758b;
+  margin-top: 8px;
+}
+.home-section {
+  background: white;
+  border: 1px solid #e1e9ef;
+  border-radius: 7px;
+  padding: 0 21px;
+}
+.home-section .section-heading {
+  padding: 15px 0;
+}
+.home-section .section-heading h2 {
+  font-size: 13px;
+  font-weight: 600;
+}
+.current-game {
+  margin-bottom: 18px;
+}
+.current-game-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 3px 0 17px;
+}
+.game-block {
+  width: 49px;
+  height: 49px;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: #397799;
+  background: #eaf3f8;
+}
+.current-game-heading > div {
+  min-width: 0;
+}
+.current-game-heading h2 {
+  font-size: 17px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.current-game-heading p {
+  color: #698498;
+  font-size: 11px;
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+.inline-separator {
+  margin: 0 8px;
+  color: #a6bbc9;
+}
+.game-status {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #728697;
+}
+.game-status.ready {
+  color: #347b65;
+}
+.game-properties {
+  border-top: 1px solid #edf2f5;
+  padding: 11px 0;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #6a8394;
+  font-size: 11px;
+  flex-wrap: wrap;
+}
+.game-properties > span,
+.game-properties button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.game-properties button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #527b96;
+  font-size: inherit;
+}
+.game-properties button:hover {
+  color: #246b92;
+}
+.home-empty {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 9px 0 25px;
+}
+.home-empty > svg {
+  color: #5d8ba4;
+}
+.home-empty > div {
+  flex: 1;
+}
+.home-empty h2 {
+  font-size: 16px;
+  font-weight: 500;
+}
+.home-empty p {
+  font-size: 11px;
+  color: #6b8495;
+  margin-top: 4px;
+}
+.home-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.home-bottom-grid .section-heading {
+  border-bottom: 1px solid #edf1f4;
+  margin-bottom: 4px;
+}
+.home-shortcuts > button,
+.recent-version {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #f0f4f7;
+  background: none;
+  color: #598099;
+  padding: 13px 0;
+  gap: 12px;
+  text-align: left;
+}
+.home-shortcuts > button:last-child,
+.recent-version:last-child {
+  border-bottom: 0;
+}
+.home-shortcuts > button > span,
+.recent-version > span {
+  flex: 1;
+  min-width: 0;
+}
+.home-shortcuts strong,
+.recent-version strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #395a70;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.home-shortcuts small,
+.recent-version small {
+  display: block;
+  font-size: 10px;
+  color: #6d8698;
+  margin-top: 3px;
+}
+.home-shortcuts > button:hover,
+.recent-version:hover {
+  color: #246b92;
+  background: #f7fafc;
+}
+.home-placeholder {
+  color: #6e879a;
+  padding: 30px 0;
+  font-size: 12px;
+}
+.version-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.version-row {
+  background: white;
+  border: 1px solid #dee8ee;
+  border-radius: 7px;
+  overflow: hidden;
+}
+.version-selected {
+  border-color: #94b9ce;
+}
+.version-row-main {
+  display: flex;
+  align-items: center;
+  padding: 18px 20px 14px;
+  gap: 14px;
+}
+.version-title {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  text-align: left;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+.version-title h3 {
+  font-size: 16px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.version-title p {
+  color: #658296;
+  font-size: 11px;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+.version-title:hover h3 {
+  color: #246b92;
+}
+.version-row-main .icon-button {
+  color: #557a92;
+}
+.version-row-tools {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 9px 20px 13px;
+  flex-wrap: wrap;
+}
+.version-row-tools button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 11px;
+  color: #527d99;
+  gap: 5px;
+}
+.version-row-tools button:hover:enabled {
+  color: #174f71;
+}
+.version-tool-spacer {
+  flex: 1;
+}
+.version-row-tools .version-launch {
+  background: #246b92;
+  color: white;
+  border-radius: 4px;
+  padding: 5px 9px;
+}
+.version-row-tools .version-launch:hover:enabled {
+  color: white;
+  background: #195a80;
+}
+.version-select-action {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding: 8px 20px;
+  border: 0;
+  border-top: 1px solid #edf2f5;
+  background: #f8fbfd;
+  color: #5d8098;
+  font-size: 11px;
+}
+.version-select-action[aria-pressed='true'] {
+  color: #246b92;
+  background: #eef6fa;
+}
+.version-row .component-warning {
+  padding: 0 20px;
+  margin: 0 0 8px;
+}
+.install-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 235px;
+  gap: 20px;
+  align-items: start;
+}
+.install-builder {
+  padding: 24px;
+  background: white;
+  border: 1px solid #dfe8ef;
+  border-radius: 7px;
+  min-width: 0;
+}
+.install-builder .dialog-description {
+  margin-top: 0;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.install-builder .component-picker {
+  border: 0;
+  border-top: 1px solid #e3ecf2;
+  padding: 21px 0 0;
+  margin-top: 24px;
+  border-radius: 0;
+}
+.install-builder .dialog-actions {
+  margin-bottom: 0;
+  padding: 13px 0 0;
+  margin-top: 17px;
+}
+.install-builder .field {
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.install-overview {
+  border: 1px solid #dfe8ef;
+  background: #fff;
+  border-radius: 7px;
+  padding: 23px;
+}
+.overview-icon {
+  width: 49px;
+  height: 49px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  color: #397b9c;
+  background: #eaf3f8;
+}
+.install-overview h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 16px;
+}
+.install-overview > p {
+  font-size: 12px;
+  color: #638399;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+.install-overview dl {
+  margin: 24px 0;
+  font-size: 11px;
+}
+.install-overview dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 10px 0;
+}
+.install-overview dt {
+  color: #708798;
+}
+.install-overview dd {
+  margin: 0;
+  color: #3e637d;
+}
+.install-hint {
+  border-top: 1px solid #e9eff4;
+  padding-top: 17px;
+  color: #5a849a;
+}
+.install-hint p {
+  color: #6d8495;
+  font-size: 11px;
+  line-height: 1.9;
+  margin: 7px 0 18px;
+}
+.download-sticky {
+  padding: 16px 26px 0;
+  top: 0;
+  background: #eef4f8f5;
+}
+.content:has(.activity-panel) .activity-panel {
+  margin-top: 20px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 1100px) {
+  .app-shell {
+    --sidebar-width: 245px;
+  }
+  .launcher-header {
+    grid-template-columns: var(--sidebar-width) 1fr 150px;
+    padding: 0 18px;
+  }
+  .content {
+    padding: 22px;
+  }
+  .home-landscape {
+    height: 190px;
+  }
+  .home-section {
+    padding: 0 17px;
+  }
+  .home-welcome {
+    padding: 25px;
+  }
+  .install-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .install-overview {
+    display: none;
+  }
+  .launch-panel {
+    padding-left: 17px;
+    padding-right: 17px;
+  }
+  .download-sticky {
+    padding: 14px 22px 0;
+  }
+  .download-statline {
+    flex-wrap: wrap;
+    row-gap: 5px;
+  }
+  .home-bottom-grid {
+    gap: 13px;
+  }
+  .home-shortcuts > button,
+  .recent-version {
+    gap: 9px;
+  }
+  .home-shortcuts small {
+    font-size: 9px;
+  }
+}
+@media (max-width: 940px) {
+  .app-shell {
+    --sidebar-width: 232px;
+  }
+  .primary-nav button {
+    padding: 0 16px;
+  }
+  .launcher-brand {
+    gap: 8px;
+  }
+  .launcher-brand strong {
+    font-size: 17px;
+  }
+  .home-empty {
+    flex-wrap: wrap;
+  }
+  .home-empty > div {
+    flex-basis: calc(100% - 50px);
+  }
+  .home-empty .button {
+    margin-left: 46px;
+  }
+  .current-game-heading {
+    flex-wrap: wrap;
+  }
+  .game-status {
+    font-size: 10px;
+  }
+  .version-row-tools {
+    gap: 13px;
+  }
+  .page-heading {
+    gap: 15px;
+  }
+  .page-heading p {
+    font-size: 11px;
+  }
+  .account-row {
+    flex-wrap: wrap;
+  }
+  .account-actions {
+    margin-left: auto;
+  }
+}
+@media (max-height: 720px) {
+  .launch-panel {
+    min-height: 505px;
+    padding-top: 18px;
+  }
+  .launch-identity {
+    min-height: 195px;
+    padding: 12px 0 16px;
+  }
+  .identity-avatar {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 9px;
+  }
+  .identity-select {
+    margin-top: 11px;
+  }
+}

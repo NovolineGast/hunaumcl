@@ -1,0 +1,11 @@
+export { FileInstanceRepository } from './instances';
+export { MojangVersionProvider } from './mojang';
+export { LocalJavaProvider, parseJavaProperties } from './java';
+export { ActivityManager } from './activity';
+export { VanillaGameRuntime } from './vanilla';
+export { FileAccountRepository } from './accounts';
+export { MicrosoftLoginManager } from './microsoft-login';
+export { LoaderCatalogProvider } from './component-catalog';
+export { gameDirectory } from './isolation';
+export { recoverComponentTransactions } from './component-recovery';
+export { setLoaderTransport } from './loader-fetch';
