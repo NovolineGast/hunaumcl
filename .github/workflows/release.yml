@@ -30,6 +30,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Ensure Electron runtime
+        shell: pwsh
+        run: |
+          Write-Host "npm ignore-scripts: $(npm config get ignore-scripts)"
+          if (-not (Test-Path node_modules/electron/dist/electron.exe)) {
+            Write-Host "Electron runtime missing after npm ci; installing it explicitly."
+            Remove-Item Env:ELECTRON_SKIP_BINARY_DOWNLOAD -ErrorAction SilentlyContinue
+            node node_modules/electron/install.js
+          }
+          if (-not (Test-Path node_modules/electron/dist/electron.exe)) {
+            throw "Electron runtime is unavailable"
+          }
+
       - name: Test
         run: npm test
 
