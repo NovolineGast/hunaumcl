@@ -9,6 +9,7 @@ import {
   statSync,
   writeFileSync,
 } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join, resolve } from 'node:path';
 
 /** Assemble a self-contained Windows portable build from the built out/ directory. */
@@ -31,7 +32,19 @@ for (const required of ['main/index.cjs', 'preload/index.cjs', 'renderer/index.h
 
 const electron = join(root, 'node_modules', 'electron', 'dist');
 if (!existsSync(join(electron, 'electron.exe'))) {
-  console.error('electron runtime not found; run "npm ci" first');
+  const installer = join(root, 'node_modules', 'electron', 'install.js');
+  if (!existsSync(installer)) {
+    console.error('electron runtime not found; run "npm ci" first');
+    process.exit(1);
+  }
+  // Electron 44 downloads its binary lazily; the direct dist copy must trigger that first.
+  console.log('Downloading Electron runtime...');
+  const env = { ...process.env };
+  delete env.ELECTRON_SKIP_BINARY_DOWNLOAD;
+  execFileSync(process.execPath, [installer], { cwd: root, stdio: 'inherit', env });
+}
+if (!existsSync(join(electron, 'electron.exe'))) {
+  console.error('Electron runtime is unavailable');
   process.exit(1);
 }
 
